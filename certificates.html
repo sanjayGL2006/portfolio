@@ -154,6 +154,50 @@ footer a:hover{color:var(--accent);}
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .fadein{animation:fadeUp 0.6s ease both;}
+
+/* ── 3D CERTIFICATE FLIP EFFECT ── */
+.cert-card {
+  perspective: 1000px;
+}
+
+.cert-card-inner {
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.cert-card:hover .cert-card-inner {
+  transform: rotateY(180deg);
+}
+
+.cert-front, .cert-back {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.cert-back {
+  transform: rotateY(180deg);
+}
+
+/* Respect user motion preferences for 3D effects */
+@media (prefers-reduced-motion: reduce) {
+  .cert-card-inner {
+    transition: opacity 0.3s ease;
+  }
+  .cert-card:hover .cert-card-inner {
+    transform: none;
+    opacity: 0.8;
+  }
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+}
 </style>
 </head>
 <body>
@@ -186,7 +230,7 @@ footer a:hover{color:var(--accent);}
     </div>
     <div class="cert-stats">
       <div class="cert-stat">
-        <div class="cert-stat-num" id="totalCount">56</div>
+        <div class="cert-stat-num" id="totalCount">70</div>
         <div class="cert-stat-label">Total Certificates</div>
       </div>
       <div class="cert-stat">
@@ -194,7 +238,7 @@ footer a:hover{color:var(--accent);}
         <div class="cert-stat-label">Named Awards</div>
       </div>
       <div class="cert-stat">
-        <div class="cert-stat-num" id="driveCount">50</div>
+        <div class="cert-stat-num" id="driveCount">64</div>
         <div class="cert-stat-label">Verified Documents</div>
       </div>
       <div class="cert-stat">
@@ -362,56 +406,70 @@ const namedCerts = [
 ];
 
 let driveCerts = [
-  {driveId:'1-0kpgEMqiR0UHkNv8oyof-2xP32aYPFZ',title:'Certificate 1'},
-  {driveId:'1-8vlFb8yc5f-75UT-QQfIqD4JMFGqt1h',title:'Certificate 2'},
-  {driveId:'1-L38L9BUDCu4VUJ5EIce_XhSV2v2ye4u',title:'Certificate 3'},
-  {driveId:'107VX9Fm7p8BC5KqtAgcNzSvjush6jojn',title:'Certificate 4'},
-  {driveId:'12ESuKNWaY74SOox4TgXZhqOZ2_dpszg-',title:'Certificate 5'},
-  {driveId:'13D2dbLhCL-eNlpQfJeviYKe2XZWSRSnK',title:'Certificate 6'},
-  {driveId:'19kO2mnjt5X4a4qWJfhfhovZnuMXaH5y6',title:'Certificate 7'},
-  {driveId:'19tI2hT0kFgW39QHMAXRpFDrjqyXql1nJ',title:'Certificate 8'},
-  {driveId:'1A2qcI_R_XUdHGCvQ6H2s14yrlGW5Su6J',title:'Certificate 9'},
-  {driveId:'1CM5hBJGy0YXnPxRO-7_Ckp752TaiCNFF',title:'Certificate 10'},
-  {driveId:'1CjorfpQJiEoNnJxRKmmyuf0p5t7XD7nh',title:'Certificate 11'},
-  {driveId:'1DYVbdydpVeue7ALlbgBhmt7dTKHut1c6',title:'Certificate 12'},
-  {driveId:'1Dk5TfiaT3BHQmZimaMydJUCw1_0FjRLF',title:'Certificate 13'},
-  {driveId:'1DlKD1aXq6bmWjG6h6x4LEOj2WAmOAG3y',title:'Certificate 14'},
-  {driveId:'1Ev6wBrNmYhsraaOL2VUubPIpqhlBtVQQ',title:'Certificate 15'},
-  {driveId:'1G0dmF-R5AZCFMO0ZAeSwH0j_n0wqvWfg',title:'Certificate 16'},
-  {driveId:'1H0aeNMwCLhJjg_6rHGyooPiZk-BflFJ1',title:'Certificate 17'},
-  {driveId:'1LJmJmbS2YcKoQEQLppfU6vEO61PCj2dP',title:'Certificate 18'},
-  {driveId:'1M6MRecN6kQ_XoI7DQ0ONdEkXodXaWXeF',title:'Certificate 19'},
-  {driveId:'1N0RR9qhzZkS-PFrWq_SKrflFdDJSYMLe',title:'Certificate 20'},
-  {driveId:'1PFtwIztabc1SqH8QgGPS7tqvJN2VKDTk',title:'Certificate 21'},
-  {driveId:'1PuWfOdlg4wlJgfk-iLpJ4rvWs-Wv4ney',title:'Certificate 22'},
-  {driveId:'1R1K_qa03mnIIhRmOxKpcWjhq1oQSJYSJ',title:'Certificate 23'},
-  {driveId:'1Sio5inFWOyaSlhcM-sq1_lK7tJINERzD',title:'Certificate 24'},
-  {driveId:'1UZsilrEc5mSaCEnwP6K1wGT4jgOTGg8U',title:'Certificate 25'},
-  {driveId:'1V0JTji0RoBPs8aFtLppu6DJecObVIIb_',title:'Certificate 26'},
-  {driveId:'1WYGu9paKEUhl-rMreFwyI0PlC3w70-G8',title:'Certificate 27'},
-  {driveId:'1WgPyuEnrmXjSvwhdOAVN1zl_U2HR15yG',title:'Certificate 28'},
-  {driveId:'1X729Vpl9RwawuEl2xthDiVV4Q0iSUYb8',title:'Certificate 29'},
-  {driveId:'1YtVQaC7XuePtK-VYQUnAbRDqzQKbRwyd',title:'Certificate 30'},
-  {driveId:'1Zr158pxcZCJH7M1PD7JsscMgzfMhTwHJ',title:'Certificate 31'},
-  {driveId:'1clNKGjfJZ_CYftMSi4s61-_MF6Yh9HHG',title:'Certificate 32'},
-  {driveId:'1dVKRSVDlJ9kUPjdIfHgp5Ut3UwrxrV3W',title:'Certificate 33'},
-  {driveId:'1eedO8IwoX9TdVJuWUK24DTaCASAroFN0',title:'Certificate 34'},
-  {driveId:'1iKLa4JLdhBlqrROJQMvx2B3NSPXnFvoS',title:'Certificate 35'},
-  {driveId:'1ikI0HNMQCN3ng-EE6eBlOcpc539CdZmj',title:'Certificate 36'},
-  {driveId:'1ikqjGqB_rCTa-JN14ydekqOI9Kw-45ut',title:'Certificate 37'},
-  {driveId:'1jLIQ565Lm2gCpIBYUowsgnRHP4l91bAz',title:'Certificate 38'},
-  {driveId:'1kVQLmzBadGWljq9Op837-wIOZB3O8TR-',title:'Certificate 39'},
-  {driveId:'1lRyftt6wcJK02cvvOfnnAIKj_MXVJmos',title:'Certificate 40'},
-  {driveId:'1m1P88OdYCZtiSagfdpiw6SWEJjKlWSh8',title:'Certificate 41'},
-  {driveId:'1qarxK_LtVF_SnhYs74EAjTZ9phTXNDZw',title:'Certificate 42'},
-  {driveId:'1qrn_Nqa-r9O2w2uPQXzSW6YAxu7xyCAD',title:'Certificate 43'},
-  {driveId:'1qvZCWbebWlDLnXu1WhmG1lty4zY-fnhX',title:'Certificate 44'},
-  {driveId:'1snCr42jFvEDk2UfebUt2PoK2ZQgLNl5w',title:'Certificate 45'},
-  {driveId:'1wrKJr7sS0BaZcMAdqGzvrC5uBw2Ba1n9',title:'Certificate 46'},
-  {driveId:'1wtxBphD8QjfypQZbrsaAHwxueftJStlH',title:'Certificate 47'},
-  {driveId:'1yVHpUp9mLInP0_i2TQAYHUnDvCBdrjj6',title:'Certificate 48'},
-  {driveId:'1z0zzGW6tuUvPa0ZO-vtUFAaT2_MDarJa',title:'Certificate 49'},
-  {driveId:'1zVtR64fW604WSRjv3Pj51nmRakFunHbw',title:'Certificate 50'},
+  {driveId:'101EnojK-vT0ofRpus24ChpMwcdWH-IZO',title:'Certificate 1'},
+  {driveId:'130a-6aNkI7aFpkshYVmNix87aZ01UHcE',title:'Certificate 2'},
+  {driveId:'14NdHcaMOp_PZazhdogWEivBFnuxQ48vH',title:'Certificate 3'},
+  {driveId:'1594kubNx4SjWmslpFmbAXql2DA47uTtS',title:'Certificate 4'},
+  {driveId:'16Qblc4p_4TJZaArfGaFd9mc6kNkqvBDi',title:'Certificate 5'},
+  {driveId:'18UlXGYGdSoGRAr_Nc3K9ufm6YCDE5tkm',title:'Certificate 6'},
+  {driveId:'1ADOYbQnbBXty6o5xvsXDtg6dNca1rupZ',title:'Certificate 7'},
+  {driveId:'1DkSdN2bxFXmyph2ZH3dr86p-fYWwiDaY',title:'Certificate 8'},
+  {driveId:'1G_Nus4dXaqf0VPqmshw1aGhlbMiGDaIH',title:'Certificate 9'},
+  {driveId:'1HVb5L5YXxR38YU8lcw2VYG54gZD-uwvG',title:'Certificate 10'},
+  {driveId:'1LsdDdH6e1HmUazBPOu3n6SBs-soR7RYo',title:'Certificate 11'},
+  {driveId:'1R7EuPTZx7IZ7k-YZBWr7LAOL94O7dPaJ',title:'Certificate 12'},
+  {driveId:'1RVRosZtbOqGHwrh3Kuui-e7CeYWdm4P8',title:'Certificate 13'},
+  {driveId:'1RrSw1fQ3AnjW5GKWIry2lvtU1Npu146X',title:'Certificate 14'},
+  {driveId:'1Rut3XME0UEtUBm2szqMxSuPTXE9rvQPt',title:'Certificate 15'},
+  {driveId:'1Sv8HTIbdCxYf4pCpRsc4fNJ1CNty6HCp',title:'Certificate 16'},
+  {driveId:'1Tb0rlxqkr8JJPmJpGWgWUvhq0Qi4Jqvs',title:'Certificate 17'},
+  {driveId:'1YaNypcypvIUuyWW8z_YGPLDHxkUaqfbv',title:'Certificate 18'},
+  {driveId:'1d4OsQE1h9Z6ygmzd2ljLgZi339CGvk3P',title:'Certificate 19'},
+  {driveId:'1fb5eR4ho4Ca5Z4knefKxsqrwguU3kcQs',title:'Certificate 20'},
+  {driveId:'1hKUXoYL5sBiNBJQS1waJsOfXeiBRR8ez',title:'Certificate 21'},
+  {driveId:'1iT_5RwkR9liECzqi9BKVMNhEE4alRzSo',title:'Certificate 22'},
+  {driveId:'1nTVsryCXykfBTOK6yeLXC-WOPbN4spGY',title:'Certificate 23'},
+  {driveId:'1p4NrRfXAt_RJeyw4abjHGHSP_hVMEv-o',title:'Certificate 24'},
+  {driveId:'1p7IJcaM_n72aonhS4kzXTE3c0pRMta_w',title:'Certificate 25'},
+  {driveId:'1uMh0IOXelO4yaV4olwvCgusVXlGBjHmM',title:'Certificate 26'},
+  {driveId:'1w89vGvXCAaSAOl_nbABD4q9isreEhRfY',title:'Certificate 27'},
+  {driveId:'1xlMToEx0wICuj0DO0V-v5eVhdRG9rSMT',title:'Certificate 28'},
+  {driveId:'10Vq4__te_q1wvywgIYY_4K0blPOavMx2',title:'Certificate 29'},
+  {driveId:'10X0Dc2H73UQVjr4U-MVCDC85i2EsOPza',title:'Certificate 30'},
+  {driveId:'12KVoyJXjFSlezR0KmmgPF8NI6PUjhsQm',title:'Certificate 31'},
+  {driveId:'12kpcrCqwxr6pXerLfTx-qG2tUG5sL_Q_',title:'Certificate 32'},
+  {driveId:'15fVZ-fG_TAJ3QtCnssQ78UevlX8F4VB7',title:'Certificate 33'},
+  {driveId:'16MphtLGwY66nvg4jsP5xA7dXPv7IUrBp',title:'Certificate 34'},
+  {driveId:'1877ISKlvZJQzSU4BifL2YmrxBv5bhjp5',title:'Certificate 35'},
+  {driveId:'19slYtiNlnLEISoxdcVURfu8Bh-j5eZtw',title:'Certificate 36'},
+  {driveId:'1ChT2M3eLGBeToJhNhR9oyPk5_FDB8-jJ',title:'Certificate 37'},
+  {driveId:'1DFdXmKWOkln0TtwYCOCa--ScSguy0Ge6',title:'Certificate 38'},
+  {driveId:'1DmLh4jeFLpJ-T2ZyjubCofobbuXcI2Gn',title:'Certificate 39'},
+  {driveId:'1HxUJJoqbTEKHvs8MRoOu_Dohe-aPkaC8',title:'Certificate 40'},
+  {driveId:'1IyBlb7kWZuM0dPXhye0XEB97VLqPj1kC',title:'Certificate 41'},
+  {driveId:'1JgfgUFhCFIHQqosiw9H_f_IoarmSjGSR',title:'Certificate 42'},
+  {driveId:'1K39PVSnV18lTUFvcog5qc_Vo7nk_D7tZ',title:'Certificate 43'},
+  {driveId:'1Mnxz57JcjNMeW5j7SpMV4c0JOIrc6p3f',title:'Certificate 44'},
+  {driveId:'1NqvIvqwazFLo19wHuO2PHnPQ3kw35JDK',title:'Certificate 45'},
+  {driveId:'1OnGOESlfekUoEvZ56OzlXDhj9ru-QfmI',title:'Certificate 46'},
+  {driveId:'1P21MYbYAFpijVCYDPFMcOxQbZpAjaHSg',title:'Certificate 47'},
+  {driveId:'1Xh1NYTGBxVToxpLS5ngiHu6yyR4c7IBI',title:'Certificate 48'},
+  {driveId:'1Xto3xt5RG2EptLCsuap4brTlRGyiw7gG',title:'Certificate 49'},
+  {driveId:'1_CYRjPS0KAtxVsVmE_Jl-IltmF6l_VkF',title:'Certificate 50'},
+  {driveId:'1abdQquiBZSFFWkD1l8k9Rzdrv-1Xnlw5',title:'Certificate 51'},
+  {driveId:'1b0GV6XlyExJ1Fd0qkuATHeqt887cq4Sa',title:'Certificate 52'},
+  {driveId:'1fETmYIeOCcBhFnTrrZh4GXZ9Q3mRejdX',title:'Certificate 53'},
+  {driveId:'1ipYVxar9n7a1ayOeLVQExL1wF9Q5vNqv',title:'Certificate 54'},
+  {driveId:'1n1cflo3Fg-MyWNkX1eqkQzV6ru4m5Fzg',title:'Certificate 55'},
+  {driveId:'1oqPDg7U2enLUcCaLuygE7UM6XFqfhvV7',title:'Certificate 56'},
+  {driveId:'1pE1c-P_VrxYxO72VrMEDH_cCfADTpZ9U',title:'Certificate 57'},
+  {driveId:'1pLglzX_GC-OhFCoDOK9lEE_-9jbVgIHs',title:'Certificate 58'},
+  {driveId:'1pf2zSgxW7_OZfcxEsB6wkM_61o2M-Ddp',title:'Certificate 59'},
+  {driveId:'1sfJv-CTGomeDyZR39of7kU8Qxnhwj0RK',title:'Certificate 60'},
+  {driveId:'1stEhxu3MUiTfByiaMhe5qYFr-n8BG1EB',title:'Certificate 61'},
+  {driveId:'1sxOO59k6UwVmHVQfRzVGoD20bj32EvDE',title:'Certificate 62'},
+  {driveId:'1wkRqKU2HE98FeycskozqgXk40i1fF7hl',title:'Certificate 63'},
+  {driveId:'1zXArkZNUWyfe9Quz0k6lhWVCcN5rA4rH',title:'Certificate 64'},
 ];
 
 driveCerts = driveCerts.map(d => ({
@@ -427,6 +485,17 @@ driveCerts = driveCerts.map(d => ({
 
 
 let allCerts = [...namedCerts, ...driveCerts];
+// Remove duplicate certificates by title (case-insensitive)
+allCerts = allCerts.filter((cert, index, self) =>
+  index === self.findIndex(c => c.title.toLowerCase() === cert.title.toLowerCase())
+);
+  <!-- BLOCKCHAIN SECTION -->
+  <div class="blockchain-section" style="margin: 48px auto 0; max-width: 700px; background: var(--surface2); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 24px rgba(56,217,245,0.07);">
+    <h2 style="color: var(--accent); font-family: 'Syne', sans-serif; font-size: 1.5rem; margin-bottom: 1rem;">Blockchain Knowledge</h2>
+    <div class="cert-desc" style="font-size:1rem; color:var(--text);">
+      <strong>What I learned:</strong> I have completed a foundational course in blockchain technology, covering the basics of distributed ledgers, consensus mechanisms, cryptographic protocols, and smart contracts. This knowledge enables me to understand how blockchain ensures transparency, security, and decentralization in digital transactions and applications.
+    </div>
+  </div>
 // ── Update hero stats dynamically ──
 document.addEventListener('DOMContentLoaded', () => {
   const total = allCerts.length;
