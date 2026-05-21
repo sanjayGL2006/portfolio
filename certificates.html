@@ -197,6 +197,14 @@ footer a:hover{color:var(--accent);}
 
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
+  nav{padding:14px 24px;}
+  .cert-hero{padding:100px 24px 50px;}
+  .profile-band{padding:22px 24px;}
+  .profile-links{margin-left:0;width:100%;}
+  .filter-bar{padding:14px 24px;}
+  .certs-main{padding:36px 24px 60px;}
+  .modal-body{padding:22px 22px;}
+  .search-box input{width:120px;}
 }
 </style>
 </head>
@@ -325,6 +333,14 @@ footer a:hover{color:var(--accent);}
     <div class="no-results-icon">🔍</div>
     <div class="no-results-text">No certificates found</div>
     <div class="no-results-sub">Try a different search term or filter</div>
+  </div>
+</div>
+
+<!-- BLOCKCHAIN SECTION -->
+<div class="blockchain-section" style="margin: 48px auto 0; max-width: 700px; background: var(--surface2); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 24px rgba(56,217,245,0.07);">
+  <h2 style="color: var(--accent); font-family: 'Syne', sans-serif; font-size: 1.5rem; margin-bottom: 1rem;">Blockchain Knowledge</h2>
+  <div class="cert-desc" style="font-size:1rem; color:var(--text);">
+    <strong>What I learned:</strong> I have completed a foundational course in blockchain technology, covering the basics of distributed ledgers, consensus mechanisms, cryptographic protocols, and smart contracts. This knowledge enables me to understand how blockchain ensures transparency, security, and decentralization in digital transactions and applications.
   </div>
 </div>
 
@@ -489,13 +505,7 @@ let allCerts = [...namedCerts, ...driveCerts];
 allCerts = allCerts.filter((cert, index, self) =>
   index === self.findIndex(c => c.title.toLowerCase() === cert.title.toLowerCase())
 );
-  <!-- BLOCKCHAIN SECTION -->
-  <div class="blockchain-section" style="margin: 48px auto 0; max-width: 700px; background: var(--surface2); border-radius: 16px; padding: 32px 24px; box-shadow: 0 4px 24px rgba(56,217,245,0.07);">
-    <h2 style="color: var(--accent); font-family: 'Syne', sans-serif; font-size: 1.5rem; margin-bottom: 1rem;">Blockchain Knowledge</h2>
-    <div class="cert-desc" style="font-size:1rem; color:var(--text);">
-      <strong>What I learned:</strong> I have completed a foundational course in blockchain technology, covering the basics of distributed ledgers, consensus mechanisms, cryptographic protocols, and smart contracts. This knowledge enables me to understand how blockchain ensures transparency, security, and decentralization in digital transactions and applications.
-    </div>
-  </div>
+
 // ── Update hero stats dynamically ──
 document.addEventListener('DOMContentLoaded', () => {
   const total = allCerts.length;
